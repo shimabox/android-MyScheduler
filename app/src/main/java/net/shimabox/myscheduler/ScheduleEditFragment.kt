@@ -50,6 +50,9 @@ class ScheduleEditFragment : Fragment() {
             binding.timeEdit.setText(DateFormat.format("HH:mm", schedule?.date))
             binding.titleEdit.setText(schedule?.title)
             binding.detailEdit.setText(schedule?.detail)
+            binding.delete.visibility = View.VISIBLE
+        } else {
+            binding.delete.visibility = View.INVISIBLE
         }
         (activity as? MainActivity)?.setFavVisible(View.INVISIBLE)
         binding.save.setOnClickListener { saveSchedule(it) }
