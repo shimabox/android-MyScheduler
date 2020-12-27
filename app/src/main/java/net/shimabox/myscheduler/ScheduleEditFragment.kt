@@ -56,6 +56,7 @@ class ScheduleEditFragment : Fragment() {
         }
 
         (activity as? MainActivity)?.setFavVisible(View.INVISIBLE)
+
         binding.save.setOnClickListener {
             val dialog = ConfirmDialog("保存しますか？",
                 "保存",
@@ -65,6 +66,7 @@ class ScheduleEditFragment : Fragment() {
                 })
             dialog.show(parentFragmentManager, "save_dialog")
         }
+
         binding.delete.setOnClickListener {
             val dialog = ConfirmDialog("削除しますか？",
                     "削除",
@@ -73,6 +75,18 @@ class ScheduleEditFragment : Fragment() {
                 Snackbar.make(it, "キャンセルしました", Snackbar.LENGTH_SHORT).show()
             })
             dialog.show(parentFragmentManager, "delete_dialog")
+        }
+
+        binding.dateButton.setOnClickListener {
+            DateDialog{ date ->
+                binding.dateEdit.setText(date)
+            }.show(parentFragmentManager, "date_dialog")
+        }
+
+        binding.timeButton.setOnClickListener {
+            TimeDialog{ time ->
+                binding.timeEdit.setText(time)
+            }.show(parentFragmentManager, "time_dialog")
         }
     }
 
