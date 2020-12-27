@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
+import io.realm.kotlin.where
 import net.shimabox.myscheduler.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
@@ -34,6 +36,11 @@ class FirstFragment : Fragment() {
         view.findViewById<Button>(R.id.button_first).setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+
+        binding.list.layoutManager = LinearLayoutManager(context)
+        val schedules = realm.where<Schedule>().findAll()
+        val adapter = ScheduleAdapter(schedules)
+        binding.list.adapter = adapter
     }
 
     override fun onDestroyView() {
