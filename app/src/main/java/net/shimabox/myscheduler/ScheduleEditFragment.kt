@@ -54,8 +54,10 @@ class ScheduleEditFragment : Fragment() {
         } else {
             binding.delete.visibility = View.INVISIBLE
         }
+
         (activity as? MainActivity)?.setFavVisible(View.INVISIBLE)
         binding.save.setOnClickListener { saveSchedule(it) }
+        binding.delete.setOnClickListener { deleteSchedule(it) }
     }
 
     private fun saveSchedule(view: View) {
@@ -92,6 +94,20 @@ class ScheduleEditFragment : Fragment() {
                         .show()
             }
         }
+    }
+
+    private fun deleteSchedule(view: View) {
+        realm.executeTransaction { db: Realm ->
+            db.where<Schedule>().equalTo("id", args.scheduleId)
+                    ?.findFirst()
+                    ?.deleteFromRealm()
+        }
+
+        Snackbar.make(view, "削除しました", Snackbar.LENGTH_SHORT)
+                .setActionTextColor(Color.YELLOW)
+                .show()
+
+        findNavController().popBackStack()
     }
 
     override fun onDestroyView() {
