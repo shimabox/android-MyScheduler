@@ -2,8 +2,10 @@ package net.shimabox.myscheduler
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import java.util.*
@@ -43,4 +45,20 @@ class DateDialog(private val onSelected: (String) -> Unit)
                            month: Int, dayOfMonth: Int) {
         onSelected("$year/${month + 1}/$dayOfMonth")
     }
+}
+
+class TimeDialog(private val onSelected: (String) -> Unit)
+    : DialogFragment(), TimePickerDialog.OnTimeSetListener {
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val c = Calendar.getInstance()
+        val hour = c.get(Calendar.HOUR_OF_DAY)
+        val minute = c.get(Calendar.MINUTE)
+        return TimePickerDialog(context, this, hour, minute, true)
+    }
+
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        onSelected("%1$02d:%2$02d".format(hourOfDay, minute))
+    }
+
 }
